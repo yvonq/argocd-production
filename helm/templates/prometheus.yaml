@@ -1,22 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: production
+  name: prometheus
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: production
   source:
-    repoURL: https://github.com/yvonq/argocd-production.git
+    path: charts/prometheus
+    repoURL: https://github.com/prometheus-community/helm-charts
     targetRevision: HEAD
-    path: helm
   destination:
+    namespace: monitoring
     server: https://kubernetes.default.svc
-    namespace: production
   syncPolicy:
     automated:
       selfHeal: true
       prune: true
     syncOptions:
     - CreateNamespace=true
+

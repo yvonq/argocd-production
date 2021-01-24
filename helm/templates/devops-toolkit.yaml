@@ -16,7 +16,13 @@ spec:
         image:
           tag: latest
         ingress:
-          host: devopstoolkitseries.com
+          enabled: false
+          host: devops-toolkit.192.168.49.2.xip.io
+        istio:
+          enabled: true
+        hpa: true
+        rollout:
+          enabled: true
       version: v3
   destination:
     namespace: production
@@ -25,4 +31,8 @@ spec:
     automated:
       selfHeal: true
       prune: true
-
+  ignoreDifferences:
+  - group: networking.istio.io
+    kind: VirtualService
+    jsonPointers:
+    - /spec/http
